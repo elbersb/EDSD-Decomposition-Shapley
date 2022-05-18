@@ -1,10 +1,10 @@
 ---
 title: EDSD - Shapley Decomposition (Exercises)
-output: html_document
+output: pdf_document
 ---
 
 ## Preparation
-
+ 
 Install the following package from GitHub:
 
 ```{r eval=FALSE}
