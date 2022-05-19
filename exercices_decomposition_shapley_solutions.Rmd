@@ -16,11 +16,17 @@ remotes::install_github("elbersb/shapley")
 
 1. Proof $\bar{y}_{2}-\bar{y}_{1}=\Delta p+\Delta y$.
 
+**Answer**: Pull out the factor $\frac{1}{2}$ and rewrite as one sum. Expand all terms. The 'mixed'
+terms then cancel out and $\bar{y}_{2}-\bar{y}_{1}$ remains.
+
 2. How does the term $\Delta y$ relate to standardization?
+
+**Answer**: $\Delta y$ is the age-standardized difference in the overall means, when
+we use $\frac{p_{i1}+p_{i2}}{2}$ as the reference distribution.
 
 3. In R, use the `children` dataset to decompose the difference in overall rates using Kitagawa's method.
 
-```r
+```{r}
 children <- data.frame(
     age = c("20 to 24", "25 to 29", "30 to 34", "35 to 39", "40 to 44"),
     n1 = c(27, 152, 224, 239, 211),
@@ -30,10 +36,32 @@ children <- data.frame(
 )
 ```
 
+**Answer**: 
+
+```{r}
+# create proportions
+children$p1 <- children$n1 / sum(children$n1)
+children$p2 <- children$n2 / sum(children$n2)
+
+y1 <- with(children, sum(p1 * rate1))
+y2 <- with(children, sum(p2 * rate2))
+# we want to decompose
+y2 - y1
+
+# two terms:
+(delta_p <- with(children, sum((rate1 + rate2) / 2 * (p2 - p1))))
+(delta_y <- with(children, sum((p1 + p2) / 2 * (rate2 - rate1))))
+
+(delta_p + delta_y == y2 - y1)
+```
+
+
 ## Exercises - Part 2
 
 1. What happens if the value function is additive in the factors?
    (e.g., let $N=\{a,b,c\}$, and $v(N)=a+b+c$, $v(\{a,c\})=a+c$, $v({\emptyset})=0$, etc.)
+
+**Answer**: The contribution of factor *a* will simply be $a$, the contribution of factor *b* will simply be $b$, and so on. As $\sum_{S\subseteq N\setminus\{k\}}\tfrac{|S|!(m-1-|S|)!}{m!}=1$ (see exercise below), the Shapley decomposition approach gives the desired answer.
 
 #### Difficult take-home exercises (if you really want to!)
 
@@ -66,6 +94,29 @@ bongaarts <- data.frame(
     `1960` = c(16.158, 0.720, 0.970, 0.970, 0.560),
     `1970` = c(16.573, 0.580, 0.760, 0.840, 0.660)
 )
+```
+
+**Answer**: 
+
+```{r}
+library("shapley")
+
+tfr <- function(factors = c()) { 
+	v <- bongaarts[["X1960"]] 
+	for (i in 1:nrow(bongaarts)) { 
+		if (bongaarts[[i, "factor"]] %in% factors) 
+			v[i] <- bongaarts[[i, "X1970"]] 
+	} 
+	prod(v) 
+} 
+
+tfr() 
+tfr() == prod(bongaarts[["X1960"]])
+tfr(c("fecundity", "marriage", "noncontracept", "abortion", "lactation")) 
+tfr(c("fecundity", "marriage", "noncontracept", "abortion", "lactation")) == prod(bongaarts[["X1970"]])
+
+shapley(tfr, c("marriage", "noncontracept", "abortion", "lactation", "fecundity"), 
+        silent = TRUE) 
 ```
 
 ## Additional exercises
