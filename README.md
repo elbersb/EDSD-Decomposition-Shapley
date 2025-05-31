@@ -1,8 +1,9 @@
 # EDSD: Shapley decomposition
 
-19 May 2022
+[Benjamin Elbers](https://elbersb.com/)
 
-Benjamin Elbers
+* Barcelona, May 2022
+* Paris, May 2025
 
 ## Preparation
 

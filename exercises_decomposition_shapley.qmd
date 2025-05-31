@@ -1,6 +1,7 @@
 ---
 title: EDSD - Shapley Decomposition (Exercises)
-output: pdf_document
+format:
+  pdf
 ---
 
 ## Preparation
