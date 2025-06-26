@@ -38,9 +38,9 @@ children <- data.frame(
 
 #### Difficult take-home exercises (if you really want to!)
 
-1. Proof that $v(N)-v(\emptyset)=\varphi_{1}+\varphi_{2}+\cdots+\varphi_{m}$. (This is called the efficiency property.)
+1. Proof $\sum_{S\subseteq N\setminus\{k\}}\tfrac{|S|!(m-1-|S|)!}{m!}=1$. (This is to see that $\varphi_{i}(N,v)$ is truly a weighted average, with the weights summing to 1.)
 
-2. Proof $\sum_{S\subseteq N\setminus\{k\}}\tfrac{|S|!(m-1-|S|)!}{m!}=1$. (This is to see that $\varphi_{i}(N,v)$ is truly a weighted average, with the weights summing to 1.)
+2. Proof that $v(N)-v(\emptyset)=\varphi_{1}+\varphi_{2}+\cdots+\varphi_{m}$. (This is called the efficiency property.)
 
 ## Exercises - Part 3
 
